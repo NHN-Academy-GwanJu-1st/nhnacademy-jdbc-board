@@ -43,13 +43,35 @@
     </div>
 
     <div style="display: flex; align-items: center;">
-        <p>댓글 수</p>
-<!--        <p th:text=""></p>-->
+        <p style="margin-right: 10px">댓글 수</p>
+        <p th:text="${commentList.size()}"></p>
     </div>
 
-    <div>
-
+    <th:block th:if="${session.user != null}">
+    <div style="display: flex; align-items: center; margin-bottom: 30px">
+        <form method="post" th:action="'/comment/register/' + ${board.id}" style="display: flex; align-items: center">
+            <input type="hidden" th:value="${board.id}">
+            <input type="hidden" name="userName" th:value="${session.user.username}">
+            <textarea cols="120" rows="5" placeholder="댓글을 작성해주세요." name="content" style="resize: none"></textarea>
+            <button type="submit" style="height: 85px">등록</button>
+        </form>
     </div>
+    </th:block>
+
+    <div th:each="comment : ${commentList}" style="border-bottom: 1px solid #444444">
+        <div style="font-size: 13px;">
+            <th:block th:if="${#strings.equals(comment.modifyCheck, 'Y')}">
+                <p>(수정됨)</p>
+            </th:block>
+
+            <p th:text="${comment.userName}"></p>
+            <p th:text="${#strings.equals(comment.modifyCheck, 'Y')} ? ${comment.updateDate} : ${comment.regDate}" style="margin: 0"></p>
+        </div>
+        <p th:text="${comment.content}"></p>
+    </div>
+
+
+
 
     <br>
     <br>

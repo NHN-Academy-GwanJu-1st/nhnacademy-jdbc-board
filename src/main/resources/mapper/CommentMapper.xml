@@ -11,6 +11,12 @@
         WHERE boardId = #{boardId} AND deleteYn = 'N'
     </select>
 
+    <select id="findById" resultType="com.nhnacademy.domain.Comment">
+        SELECT *
+        FROM Comment
+        WHERE id = #{id}
+    </select>
+
     <select id="findByBoardId" resultType="com.nhnacademy.domain.Comment">
         SELECT *
         FROM Comment

@@ -25,4 +25,6 @@ public interface BoardMapper {
 
     int increaseCommentCnt(long id);
 
+    int decreaseComment(long id);
+
 }

@@ -10,10 +10,10 @@ public class Comment {
     private final long id;
     private final long boardId;
     private final String userName;
-    private final String modifierName;
     private final String content;
     private final LocalDateTime regDate;
     private final LocalDateTime updateDate;
     private final String deleteYn;
+    private final String modifyCheck;
 
 }

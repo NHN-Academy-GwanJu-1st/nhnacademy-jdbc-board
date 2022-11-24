@@ -1,6 +1,8 @@
 package com.nhnacademy.service;
 
 import com.nhnacademy.domain.Comment;
+import com.nhnacademy.domain.CommentRegisterRequest;
+import com.nhnacademy.exception.BoardNotFoundException;
 import com.nhnacademy.mapper.BoardMapper;
 import com.nhnacademy.mapper.CommentMapper;
 import org.springframework.stereotype.Service;
@@ -34,12 +36,26 @@ public class CommentServiceImpl implements CommentService{
         return commentMapper.findByBoardId(boardId);
     }
 
+//    @Override
+//    public int registerComment(long boardId, String userName, String content) {
+//        if (boardMapper.exist(boardId) == 0) {
+//            throw new BoardNotFoundException();
+//        }
+//
+//        boardMapper.increaseCommentCnt(boardId);
+//        return commentMapper.registerComment(boardId, userName, content);
+//    }
+
+
     @Override
-    public int registerComment(long boardId, String userName, String content) {
+    public int registerComment(CommentRegisterRequest commentRegisterRequest) {
+        long boardId = commentRegisterRequest.getBoardId();
+        if (boardMapper.exist(boardId) == 0) {
+            throw new BoardNotFoundException();
+        }
+
         boardMapper.increaseCommentCnt(boardId);
-
-
-        return commentMapper.registerComment(boardId, userName, content);
+        return commentMapper.registerComment(commentRegisterRequest);
     }
 
     @Override
@@ -49,6 +65,9 @@ public class CommentServiceImpl implements CommentService{
 
     @Override
     public int deleteComment(long id) {
+        Comment comment = commentMapper.findById(id);
+        boardMapper.decreaseComment(comment.getBoardId());
+
         return commentMapper.deleteComment(id);
     }
 
