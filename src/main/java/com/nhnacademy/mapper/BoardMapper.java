@@ -2,6 +2,7 @@ package com.nhnacademy.mapper;
 
 import com.nhnacademy.domain.Board;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,10 +16,14 @@ public interface BoardMapper {
 
     Board findById(long id);
 
-    int registerBoard(long userId, String title, String content);
+    int registerBoard(@Param("userName") String userName, @Param("title") String title, @Param("content") String content);
 
-    int modifyBoard(long id, long modifierId, String title, String content, LocalDateTime updateDate);
+    int modifyBoard(@Param("id") long id, @Param("modifierName") String modifierName, @Param("title") String title, @Param("content") String content);
 
     int deleteBoard(long id);
+
+    int findTotalCount();
+
+    List<Board> boardGetList(@Param("amount") int amount, @Param("skip") int skip);
 
 }

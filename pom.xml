@@ -103,6 +103,13 @@
             <artifactId>p6spy</artifactId>
             <version>3.9.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.2.3.Final</version>
+        </dependency>
+
     </dependencies>
     <build>
         <resources>

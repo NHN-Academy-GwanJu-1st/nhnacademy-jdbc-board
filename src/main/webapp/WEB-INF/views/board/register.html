@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>NHN Academy JDBC Board Detail</h1>
+
+<form method="post" action="/board/register">
+  <div style="display: flex; flex-direction: column; width: 1000px">
+    <input type="hidden" name="userName" th:value="${session.user.username}">
+    <input type="text" name="title" placeholder="Input title">
+    <textarea cols="10" rows="30" name="content" style="resize: none"></textarea>
+
+    <br>
+
+    <div style="display: flex; align-items: center; justify-content: end">
+      <a href="/">취소</a>
+      <button type="submit" style="margin-left: 20px">등록</button>
+    </div>
+  </div>
+</form>
+
+</body>
+</html>

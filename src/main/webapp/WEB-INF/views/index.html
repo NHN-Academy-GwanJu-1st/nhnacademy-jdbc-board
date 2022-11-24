@@ -4,12 +4,31 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+
+<style>
+    .pageNumber {
+        margin-right: 5px;
+        color: black;
+        text-decoration: none;
+    }
+
+    .active a {
+        color: coral;
+    }
+
+</style>
+
 <body>
 
-<div style="width: 100%; height: 100vh; margin-bottom: 40px">
+<div style="width: 100%; margin-bottom: 40px">
     <div style="display: flex; align-items: center; justify-content: space-between">
         <h1>NNH Academy JDBC Board</h1>
-        <a href="/login">로그인</a>
+        <th:block th:if="${session.user == null}">
+            <a href="/login">로그인</a>
+        </th:block>
+        <th:block th:unless="${session.user == null}">
+            <a href="/logout">로그아웃</a>
+        </th:block>
     </div>
 </div>
 
@@ -17,30 +36,60 @@
     <a href="/board/register">등록하기</a>
 </div>
 
-<div>
-    <table>
+<br>
+<br>
+
+<div style="display: flex; justify-content: center;">
+    <table border="1" style="width: 1400px; border-collapse: collapse; text-align: center">
         <thead>
             <tr>
-            <td>번호</td>
+            <td style="width: 80px">번호</td>
             <td>제목</td>
-            <td>작성자</td>
-            <td>작성일자</td>
+            <td style="width: 170px">작성자</td>
+            <td style="width: 170px">수정자</td>
+            <td style="width: 200px">작성일자</td>
             </tr>
         </thead>
 
         <tbody>
+            <th:block th:each="board : ${boards}">
             <tr>
-                <td>1</td>
-                <td>제목</td>
-                <td>작성자</td>
-                <td>작성일자</td>
+                <td th:text="${board.id}"></td>
+                <td>
+                    <a th:href="'/board/' + ${board.id}" th:text="${board.title}"></a>
+                </td>
+                <td th:text="${board.userName}"></td>
+                <td th:text="${!#strings.equals(board.userName, board.modifierName)} ? ${board.modifierName} : '' " ></td>
+                <td th:text="${board.regDate}"></td>
             </tr>
+            </th:block>
         </tbody>
     </table>
+
+    <br>
+    <br>
+
 </div>
 
+<br>
+<br>
 
-<p th:text="${user}"></p>
+<div style="display: flex; align-items: center; justify-content: center">
+    <th:block th:if="${page.prev == true}">
+        <a th:href="'/?pageNum=' + ${page.pageNum - 10} + '&amount=' + ${page.amount}" style="margin-right: 5px">&#5130;</a>
+    </th:block>
+
+    <th:block th:each="num : *{#numbers.sequence(page.pageStart, page.pageEnd)}">
+        <div th:classappend="${page.pageNum == num} ? 'active' : ''">
+        <a class="pageNumber" th:href="'/?pageNum=' + ${num} + '&amount=' + ${page.amount}" th:text="${num}"></a>
+        </div>
+    </th:block>
+
+    <th:block th:if="${page.next == true}">
+        <a th:href="'/?pageNum=' + ${page.pageNum + 10} + '&amount=' + ${page.amount}">&#5125;</a>
+    </th:block>
+</div>
+
 
 </body>
 </html>

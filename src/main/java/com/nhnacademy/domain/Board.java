@@ -8,8 +8,8 @@ import java.util.Date;
 @Value
 public class Board {
     private final long id;
-    private final long userId;
-    private final long modifierId;
+    private final String userName;
+    private final String modifierName;
     private final String title;
     private final String content;
     private final LocalDateTime regDate;

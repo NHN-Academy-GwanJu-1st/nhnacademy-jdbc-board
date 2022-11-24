@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>NHN Academy JDBC Board Detail</h1>
+
+<div style="display: flex; flex-direction: column; width: 1000px; margin: 0 auto">
+     <input type="hidden" name="userName" th:value="${board.userName}" readonly>
+
+    <input type="text" name="title" th:value="${board.title}" readonly>
+
+    <div style="display: flex; align-items: center; font-size: 14px">
+        <p style="margin-right: 10px">작성자 : <span th:text="${board.userName}"></span></p>
+        <p>작성 시간 : <span th:text="${board.regDate}"></span></p>
+    </div>
+
+    <th:block th:if="${board.modifierName != null}">
+        <div style="display: flex; align-items: center; font-size: 14px">
+        <p style="margin-right: 10px">수정자 : <span th:text="${board.modifierName}"></span></p>
+        <p>수정 시간 : <span th:text="${board.updateDate}"></span></p>
+        </div>
+    </th:block>
+
+    <textarea cols="10" rows="30" name="content" th:text="${board.content}" readonly style="resize: none"></textarea>
+
+    <br>
+
+    <div style="display: flex; align-items: center; justify-content: flex-end">
+        <a href="/" style="margin-right: 10px">목록 페이지</a>
+        <th:block th:if="${session.user != null}">
+            <th:block
+                    th:if="${#strings.equals(session.user.role, 'Admin') || #strings.equals(session.user.username, board.userName)}">
+                <a th:href="'/board/delete/' + ${board.id}" style="margin-right: 10px">삭제</a>
+                <a th:href="'/board/modify/'+  ${board.id}">수정</a>
+            </th:block>
+        </th:block>
+    </div>
+
+    <div style="display: flex; align-items: center; justify-content: center">
+        <p>댓글 수</p>
+        <p th:text=""></p>
+    </div>
+
+    <div>
+
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+
+</div>
+
+</body>
+</html>

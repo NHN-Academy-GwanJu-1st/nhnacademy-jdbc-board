@@ -8,7 +8,7 @@
     <select id="exist" resultType="int">
         SELECT COUNT(*)
         FROM Board
-        WHERE id = #{id}
+        WHERE id = #{id} AND deleteYn = 'N'
     </select>
 
     <select id="findAll" resultType="com.nhnacademy.domain.Board">
@@ -22,20 +22,36 @@
     </select>
 
     <insert id="registerBoard">
-        INSERT INTO Board (userId, title, content)
-        VALUES (#{userId}, #{title}, #{content})
+        INSERT INTO Board (userName, title, content)
+        VALUES (#{userName}, #{title}, #{content})
     </insert>
 
     <update id="modifyBoard">
         UPDATE Board
-        SET modifierId = #{modifierId}, title = #{title}, content = #{content}, updateDate = #{updateDate}
-        WHERE id = #{boardId}
+        SET modifierName = #{modifierName}, title = #{title}, content = #{content}, updateDate = now()
+        WHERE id = #{id}
     </update>
 
-    <delete id="deleteBoard">
-        DELETE FROM Board
+    <update id="deleteBoard">
+        UPDATE Board
+        SET deleteYn = 'Y'
         WHERE id = #{id}
-    </delete>
+    </update>
+
+    <select id="findTotalCount" resultType="int">
+        SELECT COUNT(*)
+        FROM Board
+        WHERE deleteYn = 'N'
+    </select>
+
+    <select id="boardGetList" resultType="com.nhnacademy.domain.Board">
+        SELECT *
+        FROM Board
+        WHERE deleteYn = 'N'
+        ORDER BY id DESC
+        LIMIT #{amount}
+        OFFSET #{skip}
+    </select>
 
 
 
