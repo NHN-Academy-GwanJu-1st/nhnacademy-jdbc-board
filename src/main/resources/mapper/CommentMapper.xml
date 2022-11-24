@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nhnacademy.mapper.CommentMapper">
+
+    <select id="boardCommentExist" resultType="int">
+        SELECT COUNT(*)
+        FROM Comment
+        WHERE boardId = #{boardId} AND deleteYn = 'N'
+    </select>
+
+    <select id="findByBoardId" resultType="com.nhnacademy.domain.Comment">
+        SELECT *
+        FROM Comment
+        WHERE boardId = #{boardId} AND deleteYn = 'N'
+    </select>
+
+    <insert id="registerComment">
+        INSERT INTO Comment (boardId, userName, content)
+        VALUES (#{boardId}, #{userName}, #{content})
+    </insert>
+
+    <update id="modifyComment">
+        UPDATE Comment
+        SET content = #{content}, modifierName = #{modifierName}, updateDate = now()
+        WHERE id = #{id}
+    </update>
+
+    <update id="deleteComment">
+        UPDATE Comment
+        SET deleteYn = 'Y'
+        WHERE id = #{id}
+    </update>
+
+    <select id="findByBoardIdTotalCount" resultType="int">
+        SELECT COUNT(*)
+        FROM Comment
+        WHERE boardId = #{boardId}
+    </select>
+
+</mapper>

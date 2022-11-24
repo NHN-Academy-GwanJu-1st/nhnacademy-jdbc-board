@@ -2,10 +2,12 @@ package com.nhnacademy.controller;
 
 import com.nhnacademy.domain.Board;
 import com.nhnacademy.domain.BoardRegisterRequest;
+import com.nhnacademy.domain.Comment;
 import com.nhnacademy.domain.User;
 import com.nhnacademy.exception.UserNotAllowedException;
 import com.nhnacademy.exception.ValidationFailedException;
 import com.nhnacademy.service.BoardService;
+import com.nhnacademy.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -20,9 +23,11 @@ import javax.validation.Valid;
 public class BoardController {
 
     private final BoardService boardService;
+    private final CommentService commentService;
 
-    public BoardController(BoardService boardService) {
+    public BoardController(BoardService boardService, CommentService commentService) {
         this.boardService = boardService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/register")
@@ -52,7 +57,9 @@ public class BoardController {
                                  Model model) {
 
         Board board = boardService.findById(boardId);
+        List<Comment> commentList = commentService.findByBoardId(boardId);
         model.addAttribute("board", board);
+        model.addAttribute("commentList", commentList);
 
         return "/board/detail";
     }
@@ -96,7 +103,7 @@ public class BoardController {
         return "redirect:/";
     }
 
-    @GetMapping("/delete/{boardId}")
+    @PostMapping("/delete/{boardId}")
     public String doDelete(@PathVariable(value = "boardId") long boardId,
                            @SessionAttribute(value = "user") User userSession) {
 

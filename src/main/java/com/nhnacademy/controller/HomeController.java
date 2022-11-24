@@ -34,7 +34,7 @@ public class HomeController {
     }
 
     @GetMapping(params = {"pageNum", "amount"})
-    public String pageingHome(@RequestParam(value = "pageNum", required = false) int pageNum,
+    public String pagingHome(@RequestParam(value = "pageNum", required = false) int pageNum,
                               @RequestParam(value = "amount", required = false) int amount,
                               Model model) {
         int total = boardService.boardTotalCount();

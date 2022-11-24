@@ -4,15 +4,12 @@ import com.nhnacademy.domain.Board;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
 public interface BoardMapper {
 
     int exist(long id);
-
-    List<Board> findAll();
 
     Board findById(long id);
 
@@ -25,5 +22,7 @@ public interface BoardMapper {
     int findTotalCount();
 
     List<Board> boardGetList(@Param("amount") int amount, @Param("skip") int skip);
+
+    int increaseCommentCnt(long id);
 
 }

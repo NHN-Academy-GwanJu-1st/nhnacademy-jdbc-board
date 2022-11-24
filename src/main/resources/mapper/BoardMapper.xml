@@ -11,14 +11,14 @@
         WHERE id = #{id} AND deleteYn = 'N'
     </select>
 
-    <select id="findAll" resultType="com.nhnacademy.domain.Board">
-        SELECT * FROM Board
-    </select>
-
     <select id="findById" resultType="com.nhnacademy.domain.Board">
         SELECT *
         FROM Board
         WHERE id = #{id}
+--         SELECT B.id, B.userName, B.modifierName, B.title, B.content, B.regDate, B.updateDate, B.deleteYn, COUNT(*)
+--         FROM Board AS B
+--                  INNER JOIN Comment AS C ON B.id = C.boardId
+--         WHERE B.id = 185 AND B.deleteYn='N' AND C.deleteYn = 'N';
     </select>
 
     <insert id="registerBoard">
@@ -52,6 +52,18 @@
         LIMIT #{amount}
         OFFSET #{skip}
     </select>
+
+    <update id="increaseCommentCnt">
+        UPDATE Board
+        SET commentCnt = commentCnt + 1
+        WHERE id = #{id}
+    </update>
+
+    <update id="decreaseComment">
+        UPDATE Board
+        SET commentCnt = commentCnt - 1
+        WHERE id = #{id}
+    </update>
 
 
 

@@ -21,11 +21,6 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public List<Board> findAll() {
-        return boardMapper.findAll();
-    }
-
-    @Override
     public Board findById(long id) {
         existCheck(id);
 

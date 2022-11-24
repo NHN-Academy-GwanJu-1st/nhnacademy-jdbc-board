@@ -34,15 +34,17 @@
         <th:block th:if="${session.user != null}">
             <th:block
                     th:if="${#strings.equals(session.user.role, 'Admin') || #strings.equals(session.user.username, board.userName)}">
-                <a th:href="'/board/delete/' + ${board.id}" style="margin-right: 10px">삭제</a>
+                <form method="post" th:action="'/board/delete/' + ${board.id}">
+                    <button style="margin-right: 10px">삭제</button>
+                </form>
                 <a th:href="'/board/modify/'+  ${board.id}">수정</a>
             </th:block>
         </th:block>
     </div>
 
-    <div style="display: flex; align-items: center; justify-content: center">
+    <div style="display: flex; align-items: center;">
         <p>댓글 수</p>
-        <p th:text=""></p>
+<!--        <p th:text=""></p>-->
     </div>
 
     <div>
