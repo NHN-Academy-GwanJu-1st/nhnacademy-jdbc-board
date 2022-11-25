@@ -8,7 +8,7 @@
     <select id="boardCommentExist" resultType="int">
         SELECT COUNT(*)
         FROM Comment
-        WHERE boardId = #{boardId} AND deleteYn = 'N'
+        WHERE boardId = #{boardId}
     </select>
 
     <select id="findById" resultType="com.nhnacademy.domain.Comment">
@@ -20,7 +20,7 @@
     <select id="findByBoardId" resultType="com.nhnacademy.domain.Comment">
         SELECT *
         FROM Comment
-        WHERE boardId = #{boardId} AND deleteYn = 'N'
+        WHERE boardId = #{boardId}
     </select>
 
     <insert id="registerComment">
@@ -30,15 +30,14 @@
 
     <update id="modifyComment">
         UPDATE Comment
-        SET content = #{content}, modifierName = #{modifierName}, updateDate = now()
+        SET content = #{content}, updateDate = now(), modifyCheck = 'Y'
         WHERE id = #{id}
     </update>
 
-    <update id="deleteComment">
-        UPDATE Comment
-        SET deleteYn = 'Y'
+    <delete id="deleteComment">
+        DELETE FROM Comment
         WHERE id = #{id}
-    </update>
+    </delete>
 
     <select id="findByBoardIdTotalCount" resultType="int">
         SELECT COUNT(*)

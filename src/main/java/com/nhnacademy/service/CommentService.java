@@ -15,7 +15,7 @@ public interface CommentService {
 
     int registerComment(CommentRegisterRequest commentRegisterRequest);
 
-    int modifyComment(long id, String content, String modifierName);
+    int modifyComment(long id, String content);
 
     int deleteComment(long id);
 

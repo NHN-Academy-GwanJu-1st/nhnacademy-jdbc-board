@@ -11,14 +11,29 @@
         WHERE id = #{id} AND deleteYn = 'N'
     </select>
 
+    <select id="findAll" resultType="com.nhnacademy.domain.Board">
+        SELECT *
+        FROM Board
+        ORDER BY id DESC
+        LIMIT #{amount}
+        OFFSET #{skip}
+    </select>
+
+    <select id="findTotalCount" resultType="int">
+        SELECT COUNT(*)
+        FROM Board
+    </select>
+
+    <select id="findTotalNotDeleteBoardCount" resultType="int">
+        SELECT COUNT(*)
+        FROM Board
+        WHERE deleteYn = 'N'
+    </select>
+
     <select id="findById" resultType="com.nhnacademy.domain.Board">
         SELECT *
         FROM Board
         WHERE id = #{id}
---         SELECT B.id, B.userName, B.modifierName, B.title, B.content, B.regDate, B.updateDate, B.deleteYn, COUNT(*)
---         FROM Board AS B
---                  INNER JOIN Comment AS C ON B.id = C.boardId
---         WHERE B.id = 185 AND B.deleteYn='N' AND C.deleteYn = 'N';
     </select>
 
     <insert id="registerBoard">
@@ -38,11 +53,11 @@
         WHERE id = #{id}
     </update>
 
-    <select id="findTotalCount" resultType="int">
-        SELECT COUNT(*)
-        FROM Board
-        WHERE deleteYn = 'N'
-    </select>
+    <update id="recoverBoard">
+        UPDATE Board
+        SET deleteYn = 'N'
+        WHERE id = #{id}
+    </update>
 
     <select id="boardGetList" resultType="com.nhnacademy.domain.Board">
         SELECT *

@@ -28,6 +28,21 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    public List<Board> findAll(int amount, int skip) {
+        return boardMapper.findAll(amount, skip);
+    }
+
+    @Override
+    public int boardTotalCount() {
+        return boardMapper.findTotalCount();
+    }
+
+    @Override
+    public int nonDeleteBoardTotalCount() {
+        return boardMapper.findTotalNotDeleteBoardCount();
+    }
+
+    @Override
     public int registerBoard(String userName, String title, String content) {
         return boardMapper.registerBoard(userName, title, content);
     }
@@ -47,6 +62,11 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    public int recoverBoard(long id) {
+        return boardMapper.recoverBoard(id);
+    }
+
+    @Override
     public boolean allowedUserCheck(long id, User userSession) {
 
         if (userSession.getRole().equals("Admin")) {
@@ -61,10 +81,6 @@ public class BoardServiceImpl implements BoardService {
         return false;
     }
 
-    @Override
-    public int boardTotalCount() {
-        return boardMapper.findTotalCount();
-    }
 
     @Override
     public List<Board> boardGetList(int amount, int skip) {

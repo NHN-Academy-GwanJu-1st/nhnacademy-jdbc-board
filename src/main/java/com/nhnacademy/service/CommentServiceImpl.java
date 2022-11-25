@@ -59,8 +59,8 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public int modifyComment(long id, String content, String modifierName){
-        return commentMapper.modifyComment(id, content, modifierName);
+    public int modifyComment(long id, String content){
+        return commentMapper.modifyComment(id, content);
     }
 
     @Override

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Controller
@@ -113,6 +114,23 @@ public class BoardController {
 
         boardService.deleteBoard(boardId);
 
+
+        return "redirect:/";
+    }
+
+    @PostMapping("/recover/{boardId}")
+    public String doRecover(@PathVariable(value = "boardId") long boardId,
+                            @SessionAttribute(value = "user") User loginUser) {
+
+        if (Objects.isNull(loginUser)) {
+            throw new UserNotAllowedException();
+        }
+
+        if (!loginUser.getRole().equals("Admin")) {
+            throw new UserNotAllowedException();
+        }
+
+        boardService.recoverBoard(boardId);
 
         return "redirect:/";
     }

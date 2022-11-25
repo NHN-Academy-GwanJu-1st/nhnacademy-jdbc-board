@@ -58,17 +58,48 @@
     </div>
     </th:block>
 
+    <th:block th:if="${commentList.size() != 0}">
     <div th:each="comment : ${commentList}" style="border-bottom: 1px solid #444444">
-        <div style="font-size: 13px;">
+        <div style="font-size: 13px; display: flex; align-items: center">
+            <div>
             <th:block th:if="${#strings.equals(comment.modifyCheck, 'Y')}">
                 <p>(수정됨)</p>
             </th:block>
 
             <p th:text="${comment.userName}"></p>
             <p th:text="${#strings.equals(comment.modifyCheck, 'Y')} ? ${comment.updateDate} : ${comment.regDate}" style="margin: 0"></p>
+            </div>
+            <th:block th:if="${session.user != null} ">
+            <th:block th:if="${#strings.equals(session.user.role, 'Admin') || #strings.equals(session.user.username, comment.userName)}">
+            <div style="display: flex; align-items: center; margin-left: 10px">
+                <a th:attr="data-id=${comment.id}" onclick="commentModifyForm(this.getAttribute('data-id'))" style="color: green">수정</a>
+
+                <form method="post" th:action="'/comment/delete/' + ${comment.id}">
+                    <input type="hidden" name="boardId" th:value="${board.id}">
+                    <button type="submit" style="border: none; background-color: #fff; color: red">삭제</button>
+                </form>
+            </div>
+            </th:block>
+            </th:block>
+
         </div>
-        <p th:text="${comment.content}"></p>
+
+        <p th:attr="data-content=${comment.id}" th:text="${comment.content}"></p>
+
+        <div th:id="${comment.id}" style="display: none; margin-bottom: 15px">
+            <form method="post" th:action="'/comment/modify/' + ${comment.id}">
+                <div style="display: flex; align-items: center">
+                    <input type="hidden" name="boardId" th:value="${board.id}">
+                    <input type="hidden" name="userName" th:value="${comment.userName}">
+                    <textarea name="content" th:text="${comment.content}" style="width: 750px; height: 85px; resize: none;"></textarea>
+                    <button type="submit" style="margin-right: 10px">수정</button>
+                    <button type="button" th:attr="data-id=${comment.id}" onclick="commentModifyCancle(this.getAttribute('data-id'))">취소</button>
+                </div>
+            </form>
+        </div>
+
     </div>
+    </th:block>
 
 
 
@@ -79,6 +110,30 @@
     <br>
 
 </div>
+
+<script>
+
+    function commentModifyForm(data_id) {
+        console.log(data_id);
+        let modifyForm = document.getElementById(data_id);
+        let view = document.querySelector(`p[data-content='${data_id}']`);
+
+        console.log(view);
+
+        modifyForm.style.display = 'block';
+        view.style.display = 'none';
+
+
+    }
+
+    function commentModifyCancle(data_id) {
+        let modifyForm = document.getElementById(data_id);
+        let view = document.querySelector(`p[data-content='${data_id}']`);
+        modifyForm.style.display = 'none';
+        view.style.display = 'block';
+    }
+
+</script>
 
 </body>
 </html>

@@ -13,7 +13,6 @@ public class Comment {
     private final String content;
     private final LocalDateTime regDate;
     private final LocalDateTime updateDate;
-    private final String deleteYn;
     private final String modifyCheck;
 
 }

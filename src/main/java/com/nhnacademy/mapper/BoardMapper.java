@@ -11,6 +11,12 @@ public interface BoardMapper {
 
     int exist(long id);
 
+    List<Board> findAll(@Param("amount") int amount, @Param("skip") int skip);
+
+    int findTotalCount();
+
+    int findTotalNotDeleteBoardCount();
+
     Board findById(long id);
 
     int registerBoard(@Param("userName") String userName, @Param("title") String title, @Param("content") String content);
@@ -19,7 +25,7 @@ public interface BoardMapper {
 
     int deleteBoard(long id);
 
-    int findTotalCount();
+    int recoverBoard(long id);
 
     List<Board> boardGetList(@Param("amount") int amount, @Param("skip") int skip);
 

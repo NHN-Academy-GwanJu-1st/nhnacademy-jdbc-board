@@ -37,10 +37,27 @@ public class CommentController {
         return "redirect:/board/" + boardId;
     }
 
-//    @PostMapping("/modify/{commentId}")
-//    public String modifyComment(@PathVariable(value = "commentId") long commentId,
-//                                @SessionAttribute(value = "user")User userSession,
-//                                @ModelAttribute(value = "")) {
-//
-//    }
+    @PostMapping("/modify/{commentId}")
+    public String modifyComment(@PathVariable(value = "commentId") long commentId,
+                                @ModelAttribute(value = "comment") CommentRegisterRequest commentRequest,
+                                BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            throw new ValidationFailedException(bindingResult);
+        }
+
+        commentService.modifyComment(commentId, commentRequest.getContent());
+
+
+        return "redirect:/board/" + commentRequest.getBoardId();
+    }
+
+    @PostMapping("/delete/{commentId}")
+    public String deleteComment(@PathVariable(value = "commentId") long commentId,
+                                @RequestParam(value = "boardId") long boardId) {
+
+        commentService.deleteComment(commentId);
+
+        return "redirect:/board/" + boardId;
+    }
 }

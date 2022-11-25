@@ -57,12 +57,17 @@
             <tr>
                 <td th:text="${board.id}"></td>
                 <td>
+                    <th:block th:if="${#strings.equals(board.deleteYn, 'Y')}">
+                        <form method="post" th:action="'/board/recover/' + ${board.id}">
+                            <button type="submit" style="border: none; background-color: #fff; color: red">[복구하기]</button>
+                        </form>
+                    </th:block>
                     <a th:href="'/board/' + ${board.id}" th:text="${board.title}"></a>
                 </td>
                 <td th:text="${board.commentCnt}"></td>
                 <td th:text="${board.userName}"></td>
                 <td th:text="${!#strings.equals(board.userName, board.modifierName)} ? ${board.modifierName} : '' " ></td>
-                <td th:text="${board.regDate}"></td>
+                <td th:text="${board.modifierName == null} ? ${board.regDate} : ${board.updateDate}"></td>
             </tr>
             </th:block>
         </tbody>

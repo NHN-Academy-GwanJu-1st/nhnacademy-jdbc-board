@@ -18,7 +18,7 @@ public interface CommentMapper {
 
     int registerComment(CommentRegisterRequest commentRegisterRequest);
 
-    int modifyComment(long id, String content, String modifierName);
+    int modifyComment(@Param("id") long id, @Param("content") String content);
 
     int deleteComment(long id);
 
