@@ -27,8 +27,6 @@ public class CommentController {
                                   @Valid @ModelAttribute(value = "comment") CommentRegisterRequest commentRequest,
                                   BindingResult bindingResult) {
 
-        log.info("commentRequest {}", commentRequest);
-
         if (bindingResult.hasErrors()) {
             throw new ValidationFailedException(bindingResult);
         }

@@ -2,6 +2,7 @@ package com.nhnacademy.service;
 
 import com.nhnacademy.domain.Board;
 import com.nhnacademy.domain.User;
+import com.nhnacademy.domain.UserVO;
 import com.nhnacademy.exception.BoardNotFoundException;
 import com.nhnacademy.mapper.BoardMapper;
 import com.nhnacademy.mapper.UserMapper;
@@ -67,7 +68,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public boolean allowedUserCheck(long id, User userSession) {
+    public boolean allowedUserCheck(long id, UserVO userSession) {
 
         if (userSession.getRole().equals("Admin")) {
             return true;
@@ -80,7 +81,6 @@ public class BoardServiceImpl implements BoardService {
 
         return false;
     }
-
 
     @Override
     public List<Board> boardGetList(int amount, int skip) {

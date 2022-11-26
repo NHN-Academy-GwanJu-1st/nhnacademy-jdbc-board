@@ -1,15 +1,18 @@
 package com.nhnacademy.controller;
 
 import com.nhnacademy.domain.User;
+import com.nhnacademy.domain.UserVO;
 import com.nhnacademy.exception.UserNotFoundException;
 import com.nhnacademy.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Objects;
 
 @Controller
 public class LoginController {
@@ -21,8 +24,13 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public String getLogin() {
-        return "/login";
+    public String getLogin(@SessionAttribute(value = "user", required = false) UserVO loginUser) {
+
+        if (Objects.nonNull(loginUser)) {
+            return "redirect:/";
+        }
+
+        return "loginForm";
     }
 
     @PostMapping("/login")
@@ -30,15 +38,15 @@ public class LoginController {
                           @RequestParam(value = "password") String password,
                           HttpServletRequest request) {
 
-        boolean loginResult = userService.login(username, password);
+        User user = userService.login(username, password);
 
-        if (!loginResult) {
+        if (Objects.isNull(user)) {
             throw new UserNotFoundException();
         }
 
-        User user = userService.getUser(username);
+        UserVO userVO = new UserVO(user.getUsername(), user.getRole());
         HttpSession session = request.getSession();
-        session.setAttribute("user", user);
+        session.setAttribute("user", userVO);
 
         return "redirect:/";
     }

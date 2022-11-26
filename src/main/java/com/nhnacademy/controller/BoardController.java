@@ -1,9 +1,6 @@
 package com.nhnacademy.controller;
 
-import com.nhnacademy.domain.Board;
-import com.nhnacademy.domain.BoardRegisterRequest;
-import com.nhnacademy.domain.Comment;
-import com.nhnacademy.domain.User;
+import com.nhnacademy.domain.*;
 import com.nhnacademy.exception.UserNotAllowedException;
 import com.nhnacademy.exception.ValidationFailedException;
 import com.nhnacademy.service.BoardService;
@@ -67,7 +64,7 @@ public class BoardController {
 
     @GetMapping("/modify/{boardId}")
     public String getModifyForm(@PathVariable(value = "boardId") long boardId,
-                                @SessionAttribute(value = "user") User userSession,
+                                @SessionAttribute(value = "user") UserVO userSession,
                                 Model model) {
 
         if (!boardService.allowedUserCheck(boardId, userSession)) {
@@ -83,7 +80,7 @@ public class BoardController {
     @PostMapping("/modify/{boardId}")
     public String doModify(@PathVariable(value = "boardId") long boardId,
                            @Valid @ModelAttribute(value = "board") BoardRegisterRequest boardRequest,
-                           @SessionAttribute(value = "user") User userSession,
+                           @SessionAttribute(value = "user") UserVO userSession,
                            BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
@@ -106,7 +103,7 @@ public class BoardController {
 
     @PostMapping("/delete/{boardId}")
     public String doDelete(@PathVariable(value = "boardId") long boardId,
-                           @SessionAttribute(value = "user") User userSession) {
+                           @SessionAttribute(value = "user") UserVO userSession) {
 
         if (!boardService.allowedUserCheck(boardId, userSession)) {
             throw new UserNotAllowedException();
@@ -120,7 +117,7 @@ public class BoardController {
 
     @PostMapping("/recover/{boardId}")
     public String doRecover(@PathVariable(value = "boardId") long boardId,
-                            @SessionAttribute(value = "user") User loginUser) {
+                            @SessionAttribute(value = "user") UserVO loginUser) {
 
         if (Objects.isNull(loginUser)) {
             throw new UserNotAllowedException();

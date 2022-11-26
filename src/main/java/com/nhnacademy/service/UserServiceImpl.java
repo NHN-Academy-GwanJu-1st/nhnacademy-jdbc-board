@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean login(String username, String password) {
+    public User login(String username, String password) {
 
         if (existUser(username) == 0) {
             throw new UserNotFoundException();
@@ -34,9 +34,9 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.findByName(username);
 
         if (!user.getPassword().equals(password)) {
-            return false;
+            return null;
         }
 
-        return true;
+        return user;
     }
 }

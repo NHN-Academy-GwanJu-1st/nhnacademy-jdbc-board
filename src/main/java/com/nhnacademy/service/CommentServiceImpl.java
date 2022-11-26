@@ -36,17 +36,6 @@ public class CommentServiceImpl implements CommentService{
         return commentMapper.findByBoardId(boardId);
     }
 
-//    @Override
-//    public int registerComment(long boardId, String userName, String content) {
-//        if (boardMapper.exist(boardId) == 0) {
-//            throw new BoardNotFoundException();
-//        }
-//
-//        boardMapper.increaseCommentCnt(boardId);
-//        return commentMapper.registerComment(boardId, userName, content);
-//    }
-
-
     @Override
     public int registerComment(CommentRegisterRequest commentRegisterRequest) {
         long boardId = commentRegisterRequest.getBoardId();

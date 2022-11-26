@@ -1,10 +1,8 @@
 package com.nhnacademy.controller;
 
-import com.nhnacademy.domain.Board;
 import com.nhnacademy.domain.PageDTO;
-import com.nhnacademy.domain.User;
+import com.nhnacademy.domain.UserVO;
 import com.nhnacademy.service.BoardService;
-import com.nhnacademy.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -28,7 +25,7 @@ public class HomeController {
     }
 
     @GetMapping
-    public String home(@SessionAttribute(value = "user", required = false) User loginUser,
+    public String home(@SessionAttribute(value = "user", required = false) UserVO loginUser,
                        Model model) {
 
         if (isAdmin(loginUser)) {
@@ -48,7 +45,7 @@ public class HomeController {
     }
 
     @GetMapping(params = {"pageNum", "amount"})
-    public String pagingHome(@SessionAttribute(value = "user", required = false) User loginUser,
+    public String pagingHome(@SessionAttribute(value = "user", required = false) UserVO loginUser,
                              @RequestParam(value = "pageNum", required = false) int pageNum,
                              @RequestParam(value = "amount", required = false) int amount,
                              Model model) {
@@ -69,7 +66,16 @@ public class HomeController {
         return "/index";
     }
 
-    private boolean isAdmin(User loginUser) {
-        return Objects.nonNull(loginUser) && loginUser.getRole().equals("Admin");
+    private boolean isAdmin(UserVO loginUser) {
+
+        if (Objects.isNull(loginUser)) {
+            return false;
+        }
+
+        if (loginUser.getRole().equals("Admin")) {
+            return true;
+        }
+
+        return false;
     }
 }

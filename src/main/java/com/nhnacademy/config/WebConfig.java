@@ -38,10 +38,10 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware, Mes
         this.messageSource = messageSource;
     }
 
-//    @Override
-//    public void configureViewResolvers(ViewResolverRegistry registry) {
-//        registry.viewResolver(thymeleafViewResolver());
-//    }
+    @Override
+    public void configureViewResolvers(ViewResolverRegistry registry) {
+        registry.viewResolver(thymeleafViewResolver());
+    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
