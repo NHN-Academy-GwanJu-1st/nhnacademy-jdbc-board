@@ -1,12 +1,16 @@
 package com.nhnacademy.controller;
 
+import com.nhnacademy.domain.Board;
 import com.nhnacademy.domain.BoardRegisterRequest;
+import com.nhnacademy.domain.UserVO;
 import com.nhnacademy.exception.NotAcceptableFileTypeException;
+import com.nhnacademy.exception.UserNotAllowedException;
 import com.nhnacademy.exception.ValidationFailedException;
 import com.nhnacademy.service.BoardService;
 import com.nhnacademy.service.FileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,8 +46,8 @@ public class BoardRegisterController {
 
     @PostMapping("/register")
     public String doBoardRegister(@Valid @ModelAttribute(value = "board") BoardRegisterRequest boardRequest,
-                                            @RequestParam(value = "uploadFiles", required = false) MultipartFile[] uploadFiles,
-                                            BindingResult bindingResult) throws IOException {
+                                  @RequestParam(value = "uploadFiles", required = false) MultipartFile[] uploadFiles,
+                                  BindingResult bindingResult) throws IOException {
 
         if (bindingResult.hasErrors()) {
             throw new ValidationFailedException(bindingResult);
@@ -61,6 +65,57 @@ public class BoardRegisterController {
 
         return "redirect:/";
     }
+
+    @GetMapping("/modify/{boardId}")
+    public String getModifyForm(@PathVariable(value = "boardId") long boardId,
+                                @SessionAttribute(value = "user") UserVO userSession,
+                                Model model) {
+
+        if (!boardService.allowedUserCheck(boardId, userSession)) {
+            throw new UserNotAllowedException();
+        }
+
+        Board board = boardService.findById(boardId);
+        model.addAttribute("board", board);
+
+        return "/board/modify";
+    }
+
+    @PostMapping("/modify/{boardId}")
+    public String doModify(@PathVariable(value = "boardId") long boardId,
+                           @Valid @ModelAttribute(value = "board") BoardRegisterRequest boardRequest,
+                           @RequestParam(value = "uploadFiles", required = false) MultipartFile[] uploadFiles,
+                           @SessionAttribute(value = "user") UserVO userSession,
+                           BindingResult bindingResult) throws IOException {
+
+        if (bindingResult.hasErrors()) {
+            throw new ValidationFailedException(bindingResult);
+        }
+
+        if (!boardService.allowedUserCheck(boardId, userSession)) {
+            throw new UserNotAllowedException();
+        }
+
+        if (!fileEmptyCheck(uploadFiles)) {
+            fileTypeCheck(uploadFiles);
+        }
+
+        boardService.modifyBoard(
+                boardId,
+                boardRequest.getUserName(),
+                boardRequest.getTitle(),
+                boardRequest.getContent()
+        );
+
+        fileService.deleteFileByBoardId(boardId);
+
+        if (!fileEmptyCheck(uploadFiles)) {
+            fileUpload(uploadFiles, boardId);
+        }
+
+        return "redirect:/";
+    }
+
 
     private void fileUpload(MultipartFile[] uploadFiles, long boardId) throws IOException {
         for (MultipartFile file : uploadFiles) {

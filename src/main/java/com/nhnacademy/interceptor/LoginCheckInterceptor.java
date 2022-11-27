@@ -16,7 +16,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         log.info("LoginCheckInterceptor preHandle");
         HttpSession session = request.getSession();
         if (Objects.isNull(session.getAttribute("user"))) {
-            response.sendRedirect("/");
+            response.sendRedirect("/login");
             return false;
         }
 

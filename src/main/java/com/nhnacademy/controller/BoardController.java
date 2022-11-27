@@ -50,44 +50,6 @@ public class BoardController {
         return "/board/detail";
     }
 
-    @GetMapping("/modify/{boardId}")
-    public String getModifyForm(@PathVariable(value = "boardId") long boardId,
-                                @SessionAttribute(value = "user") UserVO userSession,
-                                Model model) {
-
-        if (!boardService.allowedUserCheck(boardId, userSession)) {
-            throw new UserNotAllowedException();
-        }
-
-        Board board = boardService.findById(boardId);
-        model.addAttribute("board", board);
-
-        return "/board/modify";
-    }
-
-    @PostMapping("/modify/{boardId}")
-    public String doModify(@PathVariable(value = "boardId") long boardId,
-                           @Valid @ModelAttribute(value = "board") BoardRegisterRequest boardRequest,
-                           @SessionAttribute(value = "user") UserVO userSession,
-                           BindingResult bindingResult) {
-
-        if (bindingResult.hasErrors()) {
-            throw new ValidationFailedException(bindingResult);
-        }
-
-        if (!boardService.allowedUserCheck(boardId, userSession)) {
-            throw new UserNotAllowedException();
-        }
-
-        boardService.modifyBoard(
-                boardId,
-                boardRequest.getUserName(),
-                boardRequest.getTitle(),
-                boardRequest.getContent()
-        );
-
-        return "redirect:/";
-    }
 
     @PostMapping("/delete/{boardId}")
     public String doDelete(@PathVariable(value = "boardId") long boardId,

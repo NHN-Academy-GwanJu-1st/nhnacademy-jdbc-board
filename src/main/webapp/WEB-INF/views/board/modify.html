@@ -8,11 +8,15 @@
 
 <h1>NHN Academy JDBC Board Modify</h1>
 
-<form method="post" th:action="'/board/modify/' + ${board.id}">
+<form method="post" th:action="'/board/modify/' + ${board.id}" enctype="multipart/form-data">
   <div style="display: flex; flex-direction: column; width: 1000px">
     <input type="hidden" name="userName" th:value="${session.user.username}">
     <input type="text" name="title" th:value="${board.title}">
     <textarea cols="10" rows="30" name="content" style="resize: none" th:text="${board.content}"></textarea>
+
+    <br>
+
+    <input type="file" name="uploadFiles" multiple="multiple">
 
     <br>
 

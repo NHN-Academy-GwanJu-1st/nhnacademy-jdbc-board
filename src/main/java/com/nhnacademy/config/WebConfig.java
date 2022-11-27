@@ -48,7 +48,7 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware, Mes
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginCheckInterceptor()).addPathPatterns("/board/**", "/comment/**").excludePathPatterns("/board/detail/*");
+        registry.addInterceptor(new LoginCheckInterceptor()).addPathPatterns("/board/**", "/comment/**", "/download/**").excludePathPatterns("/board/detail/*");
     }
 
     @Bean

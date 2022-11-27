@@ -12,4 +12,6 @@ public interface FileMapper {
     List<FileDAO> findByBoardId(long boardId);
 
     int insertFile(@Param("boardId") long boardId, @Param("userName") String userName, @Param("fileName") String fileName);
+
+    int deleteFileByBoardId(long boardId);
 }

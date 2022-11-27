@@ -24,4 +24,9 @@ public class FileServiceImpl implements FileService {
     public int insertFile(long boardId, String userName, String fileName) {
         return fileMapper.insertFile(boardId, userName, fileName);
     }
+
+    @Override
+    public int deleteFileByBoardId(long boardId) {
+        return fileMapper.deleteFileByBoardId(boardId);
+    }
 }

@@ -8,11 +8,17 @@
     <select id="findByBoardId" resultType="com.nhnacademy.domain.FileDAO">
         SELECT *
         FROM File
-        WHERE boardId = #{boardId}
+        WHERE boardId = #{boardId} AND deleteYn = 'N'
     </select>
 
     <insert id="insertFile">
         INSERT INTO File (boardId, userName, fileName)
         VALUES (#{boardId}, #{userName}, #{fileName})
     </insert>
+
+    <update id="deleteFileByBoardId">
+        UPDATE File
+        SET deleteYn = 'Y'
+        WHERE boardId = #{boardId};
+    </update>
 </mapper>

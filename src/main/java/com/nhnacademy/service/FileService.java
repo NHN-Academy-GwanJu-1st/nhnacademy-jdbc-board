@@ -10,4 +10,6 @@ public interface FileService {
 
     int insertFile(long boardId, String userName, String fileName);
 
+    int deleteFileByBoardId(long boardId);
+
 }
