@@ -1,16 +1,21 @@
 package com.nhnacademy.service;
 
+import com.nhnacademy.domain.Board;
 import com.nhnacademy.domain.Comment;
 import com.nhnacademy.domain.CommentRegisterRequest;
+import com.nhnacademy.domain.User;
 import com.nhnacademy.exception.BoardNotFoundException;
 import com.nhnacademy.mapper.BoardMapper;
 import com.nhnacademy.mapper.CommentMapper;
+import com.nhnacademy.mapper.UserMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Transactional
 @Service
 public class CommentServiceImpl implements CommentService{
 
@@ -25,6 +30,11 @@ public class CommentServiceImpl implements CommentService{
     @Override
     public int boardCommentExist(long boardId) {
         return commentMapper.boardCommentExist(boardId);
+    }
+
+    @Override
+    public Comment findById(long commentId) {
+        return commentMapper.findById(commentId);
     }
 
     @Override
@@ -48,8 +58,10 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public int modifyComment(long id, String content){
-        return commentMapper.modifyComment(id, content);
+    public int modifyComment(long id, CommentRegisterRequest commentRequest) {
+
+
+        return commentMapper.modifyComment(id, commentRequest.getContent());
     }
 
     @Override
@@ -60,8 +72,4 @@ public class CommentServiceImpl implements CommentService{
         return commentMapper.deleteComment(id);
     }
 
-    @Override
-    public int findByBoardIdTotalCount(long boardId) {
-        return commentMapper.findByBoardIdTotalCount(boardId);
-    }
 }

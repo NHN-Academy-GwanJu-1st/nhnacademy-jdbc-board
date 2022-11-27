@@ -4,7 +4,9 @@ import com.nhnacademy.domain.User;
 import com.nhnacademy.exception.UserNotFoundException;
 import com.nhnacademy.mapper.UserMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @Service
 public class UserServiceImpl implements UserService {
 

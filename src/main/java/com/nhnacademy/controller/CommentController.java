@@ -1,7 +1,10 @@
 package com.nhnacademy.controller;
 
+import com.nhnacademy.domain.Comment;
 import com.nhnacademy.domain.CommentRegisterRequest;
 import com.nhnacademy.domain.User;
+import com.nhnacademy.domain.UserVO;
+import com.nhnacademy.exception.UserNotAllowedException;
 import com.nhnacademy.exception.ValidationFailedException;
 import com.nhnacademy.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
@@ -37,15 +40,14 @@ public class CommentController {
 
     @PostMapping("/modify/{commentId}")
     public String modifyComment(@PathVariable(value = "commentId") long commentId,
-                                @ModelAttribute(value = "comment") CommentRegisterRequest commentRequest,
+                                @Valid @ModelAttribute(value = "comment") CommentRegisterRequest commentRequest,
                                 BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             throw new ValidationFailedException(bindingResult);
         }
 
-        commentService.modifyComment(commentId, commentRequest.getContent());
-
+        commentService.modifyComment(commentId, commentRequest);
 
         return "redirect:/board/" + commentRequest.getBoardId();
     }

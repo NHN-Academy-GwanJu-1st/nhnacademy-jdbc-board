@@ -22,6 +22,4 @@ public interface CommentMapper {
 
     int deleteComment(long id);
 
-    int findByBoardIdTotalCount(long boardId);
-
 }

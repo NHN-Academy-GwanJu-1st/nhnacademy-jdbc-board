@@ -30,7 +30,7 @@ public class BoardController {
 
     @GetMapping("/register")
     public String getBoardRegisterForm() {
-        return "/board/register";
+        return "/board/registerForm";
     }
 
     @PostMapping("/register")
@@ -116,12 +116,8 @@ public class BoardController {
     }
 
     @PostMapping("/recover/{boardId}")
-    public String doRecover(@PathVariable(value = "boardId") long boardId,
+    public String doBoardRecover(@PathVariable(value = "boardId") long boardId,
                             @SessionAttribute(value = "user") UserVO loginUser) {
-
-        if (Objects.isNull(loginUser)) {
-            throw new UserNotAllowedException();
-        }
 
         if (!loginUser.getRole().equals("Admin")) {
             throw new UserNotAllowedException();

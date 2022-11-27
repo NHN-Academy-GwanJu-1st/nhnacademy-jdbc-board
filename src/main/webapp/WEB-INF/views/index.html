@@ -66,7 +66,7 @@
                 </td>
                 <td th:text="${board.commentCnt}"></td>
                 <td th:text="${board.userName}"></td>
-                <td th:text="${!#strings.equals(board.userName, board.modifierName)} ? ${board.modifierName} : '' " ></td>
+                <td th:text="${board.modifierName == null} ? '' : ${board.modifierName}" ></td>
                 <td th:text="${board.modifierName == null} ? ${board.regDate} : ${board.updateDate}"></td>
             </tr>
             </th:block>

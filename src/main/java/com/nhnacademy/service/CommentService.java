@@ -9,16 +9,14 @@ public interface CommentService {
 
     int boardCommentExist(long boardId);
 
-    List<Comment> findByBoardId(long boardId);
+    Comment findById(long commentId);
 
-//    int registerComment(long boardId, String userName, String content);
+    List<Comment> findByBoardId(long boardId);
 
     int registerComment(CommentRegisterRequest commentRegisterRequest);
 
-    int modifyComment(long id, String content);
+    int modifyComment(long id, CommentRegisterRequest commentRegisterRequest);
 
     int deleteComment(long id);
-
-    int findByBoardIdTotalCount(long boardId);
 
 }
