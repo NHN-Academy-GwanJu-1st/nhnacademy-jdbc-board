@@ -99,7 +99,7 @@ class BoardControllerTest {
 
         when(boardService.findById(boardId)).thenThrow(BoardNotFoundException.class);
 
-        mockMvc.perform(get("/board/{boardId}", boardId))
+        mockMvc.perform(get("/board/detail/{boardId}", boardId))
                 .andDo(print())
                 .andExpect(status().isNotFound())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof BoardNotFoundException));
@@ -115,7 +115,7 @@ class BoardControllerTest {
         when(boardService.findById(boardId)).thenReturn(board);
         when(commentService.findByBoardId(boardId)).thenReturn(Collections.emptyList());
 
-        mockMvc.perform(get("/board/{boardId}", boardId))
+        mockMvc.perform(get("/board/detail/{boardId}", boardId))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("board", board))

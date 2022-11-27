@@ -62,7 +62,7 @@
                             <button type="submit" style="border: none; background-color: #fff; color: red">[복구하기]</button>
                         </form>
                     </th:block>
-                    <a th:href="'/board/' + ${board.id}" th:text="${board.title}"></a>
+                    <a th:href="'/board/detail/' + ${board.id}" th:text="${board.title}"></a>
                 </td>
                 <td th:text="${board.commentCnt}"></td>
                 <td th:text="${board.userName}"></td>

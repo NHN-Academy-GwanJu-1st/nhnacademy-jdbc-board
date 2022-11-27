@@ -50,7 +50,7 @@ public class BoardController {
         return "redirect:/";
     }
 
-    @GetMapping("/{boardId}")
+    @GetMapping("/detail/{boardId}")
     public String getBoardDetail(@PathVariable(value = "boardId") long boardId,
                                  Model model) {
 

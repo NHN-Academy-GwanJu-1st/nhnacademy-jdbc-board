@@ -92,7 +92,7 @@ class CommentControllerTest {
                         .param("content", comment.getContent()))
                 .andDo(print())
                 .andExpect(status().isFound())
-                .andExpect(view().name("redirect:/board/" + boardId));
+                .andExpect(view().name("redirect:/board/detail/" + boardId));
     }
 
     @Test
@@ -133,7 +133,7 @@ class CommentControllerTest {
                         .param("content", comment.getContent()))
                 .andDo(print())
                 .andExpect(status().isFound())
-                .andExpect(view().name("redirect:/board/" + comment.getBoardId()));
+                .andExpect(view().name("redirect:/board/detail/" + comment.getBoardId()));
 
     }
 
@@ -148,7 +148,7 @@ class CommentControllerTest {
                         .param("boardId", String.valueOf(boardId)))
                         .andDo(print())
                 .andExpect(status().isFound())
-                .andExpect(view().name("redirect:/board/" + boardId));
+                .andExpect(view().name("redirect:/board/detail/" + boardId));
     }
 
 

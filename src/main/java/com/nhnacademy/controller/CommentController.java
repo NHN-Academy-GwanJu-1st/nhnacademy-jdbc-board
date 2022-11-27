@@ -35,7 +35,7 @@ public class CommentController {
         }
         commentService.registerComment(commentRequest);
 
-        return "redirect:/board/" + boardId;
+        return "redirect:/board/detail/" + boardId;
     }
 
     @PostMapping("/modify/{commentId}")
@@ -49,7 +49,7 @@ public class CommentController {
 
         commentService.modifyComment(commentId, commentRequest);
 
-        return "redirect:/board/" + commentRequest.getBoardId();
+        return "redirect:/board/detail/" + commentRequest.getBoardId();
     }
 
     @PostMapping("/delete/{commentId}")
@@ -58,6 +58,6 @@ public class CommentController {
 
         commentService.deleteComment(commentId);
 
-        return "redirect:/board/" + boardId;
+        return "redirect:/board/detail/" + boardId;
     }
 }

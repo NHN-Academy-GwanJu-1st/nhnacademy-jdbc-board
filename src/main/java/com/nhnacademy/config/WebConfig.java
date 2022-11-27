@@ -1,5 +1,6 @@
 package com.nhnacademy.config;
 
+import com.nhnacademy.interceptor.LoginCheckInterceptor;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -45,7 +46,7 @@ public class WebConfig implements WebMvcConfigurer, ApplicationContextAware, Mes
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new LoginCheckInterceptor()).addPathPatterns("/board", "/board/**").excludePathPatterns("/board/detail");
+        registry.addInterceptor(new LoginCheckInterceptor()).addPathPatterns("/board/**", "/comment/**").excludePathPatterns("/board/detail/*");
     }
 
     @Bean
