@@ -20,4 +20,11 @@ public class BoardRegisterRequest {
 
     @Size(max = 40000)
     private String content;
+
+    public BoardRegisterRequest(String userName, String title, String content) {
+        this.id = 0;
+        this.userName = userName;
+        this.title = title;
+        this.content = content;
+    }
 }
