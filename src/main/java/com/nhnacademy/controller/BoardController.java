@@ -3,6 +3,7 @@ package com.nhnacademy.controller;
 import com.nhnacademy.domain.*;
 import com.nhnacademy.exception.UserNotAllowedException;
 import com.nhnacademy.exception.ValidationFailedException;
+import com.nhnacademy.mapper.FileMapper;
 import com.nhnacademy.service.BoardService;
 import com.nhnacademy.service.CommentService;
 import lombok.extern.slf4j.Slf4j;
@@ -10,44 +11,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Slf4j
 @Controller
 @RequestMapping("/board")
 public class BoardController {
 
+
     private final BoardService boardService;
     private final CommentService commentService;
+    private final FileMapper fileMapper;
 
-    public BoardController(BoardService boardService, CommentService commentService) {
+    public BoardController(BoardService boardService, CommentService commentService, FileMapper fileMapper) {
         this.boardService = boardService;
         this.commentService = commentService;
-    }
-
-    @GetMapping("/register")
-    public String getBoardRegisterForm() {
-        return "/board/registerForm";
-    }
-
-    @PostMapping("/register")
-    public String doBoardRegister(@Valid @ModelAttribute(value = "board") BoardRegisterRequest boardRequest,
-                                  BindingResult bindingResult) {
-
-        if (bindingResult.hasErrors()) {
-            throw new ValidationFailedException(bindingResult);
-        }
-
-        boardService.registerBoard(
-                boardRequest.getUserName(),
-                boardRequest.getTitle(),
-                boardRequest.getContent()
-        );
-
-        return "redirect:/";
+        this.fileMapper = fileMapper;
     }
 
     @GetMapping("/detail/{boardId}")
@@ -56,8 +42,10 @@ public class BoardController {
 
         Board board = boardService.findById(boardId);
         List<Comment> commentList = commentService.findByBoardId(boardId);
+        List<FileDAO> fileList = fileMapper.findByBoardId(boardId);
         model.addAttribute("board", board);
         model.addAttribute("commentList", commentList);
+        model.addAttribute("fileList", fileList);
 
         return "/board/detail";
     }
@@ -127,4 +115,7 @@ public class BoardController {
 
         return "redirect:/";
     }
+
+
+
 }

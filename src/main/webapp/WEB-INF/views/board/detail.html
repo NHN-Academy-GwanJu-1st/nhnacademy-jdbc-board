@@ -29,6 +29,17 @@
 
     <br>
 
+    <th:block th:if="${fileList.size() != 0}">
+        <th:block th:each="file : ${fileList}">
+            <div style="display: flex; align-items: center">
+                <p th:text="${file.fileName}"></p>
+                <a th:href="${'/download?filename=' + file.fileName}">[다운로드]</a>
+            </div>
+        </th:block>
+    </th:block>
+
+    <br>
+
     <div style="display: flex; align-items: center; justify-content: flex-end">
         <a href="/" style="margin-right: 10px">목록 페이지</a>
         <th:block th:if="${session.user != null}">

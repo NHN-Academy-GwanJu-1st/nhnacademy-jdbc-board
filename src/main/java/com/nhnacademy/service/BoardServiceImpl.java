@@ -1,6 +1,7 @@
 package com.nhnacademy.service;
 
 import com.nhnacademy.domain.Board;
+import com.nhnacademy.domain.BoardRegisterRequest;
 import com.nhnacademy.domain.User;
 import com.nhnacademy.domain.UserVO;
 import com.nhnacademy.exception.BoardNotFoundException;
@@ -45,8 +46,8 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public int registerBoard(String userName, String title, String content) {
-        return boardMapper.registerBoard(userName, title, content);
+    public int registerBoard(BoardRegisterRequest boardRegisterRequest) {
+        return boardMapper.registerBoard(boardRegisterRequest);
     }
 
     @Override

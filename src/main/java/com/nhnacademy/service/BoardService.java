@@ -1,6 +1,7 @@
 package com.nhnacademy.service;
 
 import com.nhnacademy.domain.Board;
+import com.nhnacademy.domain.BoardRegisterRequest;
 import com.nhnacademy.domain.User;
 import com.nhnacademy.domain.UserVO;
 
@@ -17,7 +18,7 @@ public interface BoardService {
 
     int nonDeleteBoardTotalCount();
 
-    int registerBoard(String userName, String title, String content);
+    int registerBoard(BoardRegisterRequest boardRegisterRequest);
 
     int modifyBoard(long id, String modifierName, String title, String content);
 

@@ -1,6 +1,7 @@
 package com.nhnacademy.mapper;
 
 import com.nhnacademy.domain.Board;
+import com.nhnacademy.domain.BoardRegisterRequest;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -19,7 +20,7 @@ public interface BoardMapper {
 
     Board findById(long id);
 
-    int registerBoard(@Param("userName") String userName, @Param("title") String title, @Param("content") String content);
+    int registerBoard(BoardRegisterRequest boardRegisterRequest);
 
     int modifyBoard(@Param("id") long id, @Param("modifierName") String modifierName, @Param("title") String title, @Param("content") String content);
 
