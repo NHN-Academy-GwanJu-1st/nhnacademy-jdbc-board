@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+    <!-- fontawesome -->
+    <script src="https://kit.fontawesome.com/1811ec3902.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -40,17 +43,51 @@
 
     <br>
 
-    <div style="display: flex; align-items: center; justify-content: flex-end">
-        <a href="/" style="margin-right: 10px">목록 페이지</a>
-        <th:block th:if="${session.user != null}">
-            <th:block
-                    th:if="${#strings.equals(session.user.role, 'Admin') || #strings.equals(session.user.username, board.userName)}">
-                <form method="post" th:action="'/board/delete/' + ${board.id}">
-                    <button style="margin-right: 10px">삭제</button>
+    <div style="display: flex; align-items: center; justify-content: space-between">
+
+        <div>
+            <th:block th:if="${heartStatus == true}">
+                <form method="post" action="/heart/deleteHeart">
+                    <input type="hidden" name="boardId" th:value="${board.id}">
+
+                    <th:block th:if="${session.user != null}">
+                        <input type="hidden" name="userName" th:value="${session.user.username}">
+                    </th:block>
+
+                    <button style="border: none; background-color: #fff">
+                        <i class="fa-solid fa-heart" style="font-size: 24px; color: red"></i>
+                    </button>
                 </form>
-                <a th:href="'/board/modify/'+  ${board.id}">수정</a>
             </th:block>
-        </th:block>
+
+            <th:block th:unless="${heartStatus == true}">
+                <form method="post" action="/heart/addHeart">
+                    <input type="hidden" name="boardId" th:value="${board.id}">
+
+                    <th:block th:if="${session.user != null}">
+                        <input type="hidden" name="userName" th:value="${session.user.username}">
+                    </th:block>
+
+                    <button style="border: none; background-color: #fff">
+                        <i class="fa-regular fa-heart" style="font-size: 24px"></i>
+                    </button>
+                </form>
+            </th:block>
+        </div>
+
+
+        <div style="display: flex; align-items: center;">
+            <a href="/" style="margin-right: 10px">목록 페이지</a>
+            <th:block th:if="${session.user != null}">
+                <th:block
+                        th:if="${#strings.equals(session.user.role, 'Admin') || #strings.equals(session.user.username, board.userName)}">
+                    <form method="post" th:action="'/board/delete/' + ${board.id}">
+                        <button style="margin-right: 10px">삭제</button>
+                    </form>
+                    <a th:href="'/board/modify/'+  ${board.id}">수정</a>
+                </th:block>
+            </th:block>
+        </div>
     </div>
 
     <div style="display: flex; align-items: center;">
@@ -129,17 +166,14 @@
         let modifyForm = document.getElementById(data_id);
         let view = document.querySelector(`p[data-content='${data_id}']`);
 
-        console.log(view);
-
         modifyForm.style.display = 'block';
         view.style.display = 'none';
-
-
     }
 
     function commentModifyCancle(data_id) {
         let modifyForm = document.getElementById(data_id);
         let view = document.querySelector(`p[data-content='${data_id}']`);
+
         modifyForm.style.display = 'none';
         view.style.display = 'block';
     }

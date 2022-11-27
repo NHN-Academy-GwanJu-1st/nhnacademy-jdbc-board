@@ -6,6 +6,8 @@ import com.nhnacademy.exception.ValidationFailedException;
 import com.nhnacademy.mapper.FileMapper;
 import com.nhnacademy.service.BoardService;
 import com.nhnacademy.service.CommentService;
+import com.nhnacademy.service.FileService;
+import com.nhnacademy.service.HeartService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,21 +30,31 @@ public class BoardController {
 
     private final BoardService boardService;
     private final CommentService commentService;
-    private final FileMapper fileMapper;
+    private final FileService fileService;
+    private final HeartService heartService;
 
-    public BoardController(BoardService boardService, CommentService commentService, FileMapper fileMapper) {
+    public BoardController(BoardService boardService, CommentService commentService, FileService fileService, HeartService heartService) {
         this.boardService = boardService;
         this.commentService = commentService;
-        this.fileMapper = fileMapper;
+        this.fileService = fileService;
+        this.heartService = heartService;
     }
 
     @GetMapping("/detail/{boardId}")
     public String getBoardDetail(@PathVariable(value = "boardId") long boardId,
+                                 @SessionAttribute(value = "user", required = false) UserVO loginUser,
                                  Model model) {
 
         Board board = boardService.findById(boardId);
         List<Comment> commentList = commentService.findByBoardId(boardId);
-        List<FileDAO> fileList = fileMapper.findByBoardId(boardId);
+        List<FileDAO> fileList = fileService.findByBoardId(boardId);
+
+        if (Objects.isNull(loginUser)) {
+            model.addAttribute("heartStatus", false);
+        } else {
+            model.addAttribute("heartStatus", heartService.findByBoardIdAndUserName(boardId, loginUser.getUsername()));
+        }
+
         model.addAttribute("board", board);
         model.addAttribute("commentList", commentList);
         model.addAttribute("fileList", fileList);
