@@ -89,6 +89,11 @@ public class BoardServiceImpl implements BoardService {
         return boardMapper.boardGetList(amount, skip);
     }
 
+    @Override
+    public Board findByIdContainDeletedBoard(long boardId) {
+        return boardMapper.findById(boardId);
+    }
+
     private void existCheck(long id) {
         if (boardMapper.exist(id) == 0) {
             throw new BoardNotFoundException();

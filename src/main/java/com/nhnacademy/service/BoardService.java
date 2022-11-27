@@ -29,4 +29,6 @@ public interface BoardService {
     boolean allowedUserCheck(long id, UserVO userSession);
 
     List<Board> boardGetList(int amount, int skip);
+
+    Board findByIdContainDeletedBoard(long boardId);
 }

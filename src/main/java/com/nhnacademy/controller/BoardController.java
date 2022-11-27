@@ -45,21 +45,37 @@ public class BoardController {
                                  @SessionAttribute(value = "user", required = false) UserVO loginUser,
                                  Model model) {
 
-        Board board = boardService.findById(boardId);
         List<Comment> commentList = commentService.findByBoardId(boardId);
         List<FileDAO> fileList = fileService.findByBoardId(boardId);
 
+        modelHeartStatus(boardId, loginUser, model);
+
+        modelGetBoard(boardId, loginUser, model);
+
+        model.addAttribute("commentList", commentList);
+        model.addAttribute("fileList", fileList);
+
+        return "/board/detail";
+    }
+
+    private void modelGetBoard(long boardId, UserVO loginUser, Model model) {
+        if (isAdmin(loginUser)) {
+            model.addAttribute("board", boardService.findByIdContainDeletedBoard(boardId));
+        } else {
+            model.addAttribute("board", boardService.findById(boardId));
+        }
+    }
+
+    private boolean isAdmin(UserVO loginUser) {
+        return Objects.nonNull(loginUser) && loginUser.getRole().equals("Admin");
+    }
+
+    private void modelHeartStatus(long boardId, UserVO loginUser, Model model) {
         if (Objects.isNull(loginUser)) {
             model.addAttribute("heartStatus", false);
         } else {
             model.addAttribute("heartStatus", heartService.findByBoardIdAndUserName(boardId, loginUser.getUsername()));
         }
-
-        model.addAttribute("board", board);
-        model.addAttribute("commentList", commentList);
-        model.addAttribute("fileList", fileList);
-
-        return "/board/detail";
     }
 
 
