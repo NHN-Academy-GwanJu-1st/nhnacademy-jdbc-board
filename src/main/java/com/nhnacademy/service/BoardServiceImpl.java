@@ -2,15 +2,12 @@ package com.nhnacademy.service;
 
 import com.nhnacademy.domain.Board;
 import com.nhnacademy.domain.BoardRegisterRequest;
-import com.nhnacademy.domain.User;
 import com.nhnacademy.domain.UserVO;
 import com.nhnacademy.exception.BoardNotFoundException;
 import com.nhnacademy.mapper.BoardMapper;
-import com.nhnacademy.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Transactional

@@ -2,8 +2,6 @@ package com.nhnacademy.controller;
 
 import com.nhnacademy.domain.*;
 import com.nhnacademy.exception.UserNotAllowedException;
-import com.nhnacademy.exception.ValidationFailedException;
-import com.nhnacademy.mapper.FileMapper;
 import com.nhnacademy.service.BoardService;
 import com.nhnacademy.service.CommentService;
 import com.nhnacademy.service.FileService;
@@ -11,16 +9,10 @@ import com.nhnacademy.service.HeartService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @Slf4j
 @Controller
@@ -89,7 +81,6 @@ public class BoardController {
 
         boardService.deleteBoard(boardId);
 
-
         return "redirect:/";
     }
 
@@ -105,7 +96,5 @@ public class BoardController {
 
         return "redirect:/";
     }
-
-
 
 }

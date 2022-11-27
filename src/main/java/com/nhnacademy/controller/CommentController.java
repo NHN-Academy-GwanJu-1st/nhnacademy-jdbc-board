@@ -1,10 +1,6 @@
 package com.nhnacademy.controller;
 
-import com.nhnacademy.domain.Comment;
 import com.nhnacademy.domain.CommentRegisterRequest;
-import com.nhnacademy.domain.User;
-import com.nhnacademy.domain.UserVO;
-import com.nhnacademy.exception.UserNotAllowedException;
 import com.nhnacademy.exception.ValidationFailedException;
 import com.nhnacademy.service.CommentService;
 import lombok.extern.slf4j.Slf4j;

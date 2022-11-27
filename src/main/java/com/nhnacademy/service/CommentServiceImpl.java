@@ -1,17 +1,13 @@
 package com.nhnacademy.service;
 
-import com.nhnacademy.domain.Board;
 import com.nhnacademy.domain.Comment;
 import com.nhnacademy.domain.CommentRegisterRequest;
-import com.nhnacademy.domain.User;
 import com.nhnacademy.exception.BoardNotFoundException;
 import com.nhnacademy.mapper.BoardMapper;
 import com.nhnacademy.mapper.CommentMapper;
-import com.nhnacademy.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
